@@ -5,7 +5,7 @@
      "dryrun"    : 0,
      "logtoerr"  : 0,
 -    "error_log" : "/var/log/authentication_milter.err",
-+    "error_log" : "%%LOGDIR%%/authentication_milter.err",
++    "log_dispatchouli" : {},
  
 -    "connection"             : "inet:12345@localhost",
 -    "umask"                  : "0000",

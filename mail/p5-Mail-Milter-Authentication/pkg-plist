@@ -125,9 +125,4 @@ bin/authentication_milter_client
 %%PERL5_MAN3%%/Mail::Milter::Authentication::Resolver.3.gz
 %%PERL5_MAN3%%/Mail::Milter::Authentication::Tester::HandlerTester.3.gz
 %%PERL5_MAN3%%/Mail::Milter::Authentication::Tester.3.gz
-@dir /var/lib
-@dir(%%DEFAULT_USER%%,%%DEFAULT_GROUP%%,0750) %%RUNDIR%%
-@dir(%%DEFAULT_USER%%,%%DEFAULT_GROUP%%,0750) %%CACHEDIR%%
-@dir(%%DEFAULT_USER%%,%%DEFAULT_GROUP%%,0750) %%SPOOLDIR%%
-@dir(%%DEFAULT_USER%%,%%DEFAULT_GROUP%%,0750) %%VARLIBDIR%%
 @dir %%ETCDIR%%/authentication_milter.d
