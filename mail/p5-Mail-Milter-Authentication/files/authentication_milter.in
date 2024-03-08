@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# PROVIDE: authentication_milter
+# REQUIRE: NETWORKING
+# BEFORE:  mail
+# KEYWORD: shutdown
+#
+# Define these authentication_milter* variables in one of these files:
+#	/etc/rc.conf
+#	/etc/rc.conf.local
+#	/etc/rc.conf.d/authentication_milter
+#
+# DO NOT CHANGE THESE DEFAULT VALUES HERE
+#
+# Add the following lines to /etc/rc.conf to enable authentication_milter:
+#
+# authentication_milter_enable="YES"
+# authentication_milter_flags="<set as needed>"
+# authentication_milter_prefix="%%ETCDIR%%"
+# authentication_milter_foreground_enable="<default 'NO'>"
+# authentication_milter_user="%%DEFAULT_USER%%"
+# authentication_milter_group="%%DEFAULT_GROUP%%"
+#
+
+. /etc/rc.subr
+
+name="authentication_milter"
+rcvar="authentication_milter_enable"
+
+load_rc_config $name
+
+: ${authentication_milter_enable:=NO}
+: ${authentication_milter_prefix:=%%ETCDIR%%}
+: ${authentication_milter_foreground_enable:=NO}
+: ${authentication_milter_user:=%%DEFAULT_USER%%}
+: ${authentication_milter_group:=%%DEFAULT_GROUP%%}
+
+pidfile="%%RUNDIR%%/${name}.pid"
+procname="%%PREFIX%%/bin/authentication_milter"
+command_args="--pidfile ${pidfile} --prefix ${authentication_milter_prefix} ${authentication_milter_flags}"
+
+start_cmd="authentication_milter_start"
+start_precmd="authentication_milter_prestart"
+status_cmd="authentication_milter_status"
+stop_cmd="authentication_milter_stop"
+
+authentication_milter_prestart () {
+	case "${authentication_milter_flags}" in
+	-c*|*-c*|--control*|*--control*)
+		err 1 "authentication_milter_flags doesn't require --control option."
+		;;
+	-d*|*-d*|--daemon*|*--daemon*)
+		err 1 "authentication_milter_flags doesn't require --daemon option."
+		;;
+	--pidfile*|*--pidfile*)
+		err 1 "authentication_milter_flags doesn't require --pidfile option."
+		;;
+	--prefix*|*--prefix*)
+		err 1 "authentication_milter_flags doesn't require --prefix option."
+		;;
+	-h*|*-h*|--help*|*--help*)
+		err 1 "authentication_milter_flags doesn't require --help option."
+		;;
+	esac
+
+	piddir=$(dirname "$pidfile")
+	if [ ! -d "$piddir" ]; then
+		install -d -o "$authentication_milter_user" -g "$authentication_milter_group" -m 0755 "$piddir"
+	fi
+}
+
+authentication_milter_start () {
+	if checkyesno authentication_milter_foreground_enable; then
+		${procname}    -c start  ${command_args}
+	else
+		echo "Starting ${name}."
+		${procname} -d -c start  ${command_args}
+	fi
+}
+
+authentication_milter_stop () {
+		${procname}    -c stop   ${command_args}
+}
+
+authentication_milter_status () {
+		${procname}    -c status ${command_args}
+}
+
+run_rc_command "$1"
