@@ -14,6 +14,7 @@ LIB_DEPENDS=	libeditline.so:devel/editline
 
 USES=		cpe shebangfix tar:xz
 USE_RC_SUBR=	${PORTNAME} zoneserver Deadwood
+
 SHEBANG_FILES=	${WRKSRC}/doc/en/tutorial/make.index
 
 HAS_CONFIGURE=	yes
@@ -21,17 +22,16 @@ HAS_CONFIGURE=	yes
 USERS=		bind
 GROUPS=		bind
 
-OPTIONS_DEFINE=	MANPAGES
+OPTIONS_DEFINE=	DOCS EXAMPLES IPV6 MANPAGES
 OPTIONS_SUB=	yes
 
 IPV6_CONFIGURE_OFF=	--noipv6
 DEADWOOD_VER=	deadwood-${PORTVERSION}
-
 EXAMPLES=	auth_mararc csv2 full_mararc mararc recursive_mararc \
 		simple_csv1
 
 post-extract:
-	${RM} ${WRKSRC}/doc/en/man/man1/mqhash.1
+	${RM} ${WRKSRC}/doc/en/man/mqhash.1
 
 post-patch:
 	cd ${PATCH_WRKSRC} && \
@@ -45,10 +45,8 @@ post-patch-IPV6-on:
 	${REINPLACE_CMD} -e 's|127.0.0.1/16|127.0.0.1/16,\ ::1/128|' \
 	    ${WRKSRC}/${DEADWOOD_VER}/doc/dwood3rc
 
-pre-install:
-	@${MKDIR} ${STAGEDIR}${ETCDIR}
-
 do-install:
+	@${MKDIR} ${STAGEDIR}${ETCDIR}
 	cd ${WRKSRC} && ${INSTALL_PROGRAM} \
 	    tools/askmara tools/duende tcp/fetchzone tcp/getzone \
 	    coLunacyDNS/lunacy/lunacy \
