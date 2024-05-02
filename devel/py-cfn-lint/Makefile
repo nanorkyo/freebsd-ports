@@ -1,4 +1,3 @@
-
 PORTNAME=	cfn-lint
 DISTVERSION=	0.86.2
 CATEGORIES=	devel python textproc
