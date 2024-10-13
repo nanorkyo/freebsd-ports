@@ -86,7 +86,9 @@ post-patch:
 		    bin/authentication_milter \
 		    lib/Mail/Milter/Authentication/Config.pm \
 		    lib/Mail/Milter/Authentication/Handler/DMARC.pm \
-		    share/authentication_milter.json
+		    share/authentication_milter.json \
+		    t/04-unit-handler-dmarc.t
+		${FIND} ${WRKSRC} -name "*.bak" -o -name "*.orig" | ${XARGS} ${RM}
 
 post-install:
 		${MKDIR} ${STAGEDIR}${ETCDIR}/authentication_milter.d
