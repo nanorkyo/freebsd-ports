@@ -1495,6 +1495,7 @@
     SUBDIR += upower
     SUBDIR += upsdaemon
     SUBDIR += uptimed
+    SUBDIR += usacloud
     SUBDIR += usb_modeswitch
     SUBDIR += usbhid-dump
     SUBDIR += usbtop
