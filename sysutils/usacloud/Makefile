@@ -1,32 +1,33 @@
-PORTNAME=	usacloud
-DISTVERSIONPREFIX=	v
-DISTVERSION=	1.14.1
+PORTNAME=	${DISTNAME}
 CATEGORIES=	sysutils
+MASTER_SITES=	# not applicable
+DISTFILES=	# not applicable
 
 MAINTAINER=	nork@FreeBSD.org
-COMMENT=	CLI client for SAKURA cloud
+COMMENT=	Meta port for SAKURA cloud
 WWW=		https://docs.usacloud.jp/usacloud/
 
 LICENSE=	APACHE20
-LICENSE_FILE=	${WRKSRC}/LICENSE.txt
 
-USES=		go:modules
+BUILD_DEPENDS=	usacloud:sysutils/usacloud-core
+RUN_DEPENDS=	usacloud:sysutils/usacloud-core
 
-GO_MODULE=	github.com/sacloud/usacloud
-GO_TARGET=	main.go:usacloud
+NO_ARCH=	yes
+NO_TEST=	yes
+NO_WRKSUBDIR=	yes
 
-PLIST_FILES=	bin/usacloud \
-		etc/bash_completion.d/usacloud \
+PLIST_FILES=	etc/bash_completion.d/usacloud \
 		share/zsh/site-functions/_usacloud
 
-post-build:
-	${WRKDIR}/bin/usacloud completion bash > ${WRKDIR}/usacloud
-	${WRKDIR}/bin/usacloud completion zsh  > ${WRKDIR}/_usacloud
+do-build:
+	usacloud completion bash > ${WRKDIR}/usacloud
+	usacloud completion zsh  > ${WRKDIR}/_usacloud
 
-post-install:
+do-install:
 	@${MKDIR} ${STAGEDIR}${PREFIX}/etc/bash_completion.d
 	@${MKDIR} ${STAGEDIR}${PREFIX}/share/zsh/site-functions
 	${INSTALL_DATA} ${WRKDIR}/usacloud  ${STAGEDIR}${PREFIX}/etc/bash_completion.d/
 	${INSTALL_DATA} ${WRKDIR}/_usacloud ${STAGEDIR}${PREFIX}/share/zsh/site-functions/
 
+.include "${.CURDIR}/../usacloud-core/Makefile.version"
 .include <bsd.port.mk>
