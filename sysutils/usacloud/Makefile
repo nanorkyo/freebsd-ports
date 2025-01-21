@@ -1,7 +1,7 @@
-PORTNAME=	${DISTNAME}
+PORTNAME=	usacloud
 CATEGORIES=	sysutils
-MASTER_SITES=	# not applicable
-DISTFILES=	# not applicable
+MASTER_SITES=	# empty
+DISTFILES=	# empty
 
 MAINTAINER=	nork@FreeBSD.org
 COMMENT=	Meta port for SAKURA cloud
@@ -9,25 +9,27 @@ WWW=		https://docs.usacloud.jp/usacloud/
 
 LICENSE=	APACHE20
 
-BUILD_DEPENDS=	usacloud:sysutils/usacloud-core
-RUN_DEPENDS=	usacloud:sysutils/usacloud-core
+BUILD_DEPENDS=	${LOCALBASE}/bin/usacloud>=${PKGVERSION}:sysutils/usacloud-core
+RUN_DEPENDS=	${LOCALBASE}/bin/usacloud>=${PKGVERSION}:sysutils/usacloud-core
 
 NO_ARCH=	yes
 NO_TEST=	yes
 NO_WRKSUBDIR=	yes
 
-PLIST_FILES=	etc/bash_completion.d/usacloud \
-		share/zsh/site-functions/_usacloud
+USACLOUD_CMD=	${LOCALBASE}/bin/usacloud completion
+ENTRIES=	bash:etc/bash_completion.d/usacloud \
+		zsh:share/zsh/site-functions/_usacloud
+M_LABEL=	C,\:.*$$,,
+M_PATH=		C,^.*\:,,
+PLIST_FILES=	${ENTRIES:${M_PATH}}
 
 do-build:
-	usacloud completion bash > ${WRKDIR}/usacloud
-	usacloud completion zsh  > ${WRKDIR}/_usacloud
+	cd ${BUILD_WRKSRC} && \
+	   ${MKDIR} ${ENTRIES:${M_PATH}:H} && \
+	   ${ENTRIES:@F@${USACLOUD_CMD} ${F:${M_LABEL}} > ${F:${M_PATH}};@}
 
 do-install:
-	@${MKDIR} ${STAGEDIR}${PREFIX}/etc/bash_completion.d
-	@${MKDIR} ${STAGEDIR}${PREFIX}/share/zsh/site-functions
-	${INSTALL_DATA} ${WRKDIR}/usacloud  ${STAGEDIR}${PREFIX}/etc/bash_completion.d/
-	${INSTALL_DATA} ${WRKDIR}/_usacloud ${STAGEDIR}${PREFIX}/share/zsh/site-functions/
+	cd ${INSTALL_WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}
 
 .include "${.CURDIR}/../usacloud-core/Makefile.version"
 .include <bsd.port.mk>

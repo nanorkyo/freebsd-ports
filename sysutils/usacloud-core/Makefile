@@ -1,5 +1,7 @@
-PORTNAME=	${DISTNAME}-core
+PORTNAME=	usacloud
+PORTREVISION=	# Bump PORTREVISION in Makefile.version
 CATEGORIES=	sysutils
+PKGNAMESUFFIX=	-core
 
 MAINTAINER=	nork@FreeBSD.org
 COMMENT=	CLI client for SAKURA cloud
@@ -15,5 +17,5 @@ GO_TARGET=	main.go:usacloud
 
 PLIST_FILES=	bin/usacloud
 
-.include "${.CURDIR}/Makefile.version"
+.include "Makefile.version"
 .include <bsd.port.mk>
