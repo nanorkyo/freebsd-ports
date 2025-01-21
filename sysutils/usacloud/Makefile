@@ -9,8 +9,8 @@ WWW=		https://docs.usacloud.jp/usacloud/
 
 LICENSE=	APACHE20
 
-BUILD_DEPENDS=	${LOCALBASE}/bin/usacloud>=${PKGVERSION}:sysutils/usacloud-core
-RUN_DEPENDS=	${LOCALBASE}/bin/usacloud>=${PKGVERSION}:sysutils/usacloud-core
+BUILD_DEPENDS=	usacloud-core>=${PKGVERSION}:sysutils/usacloud-core
+RUN_DEPENDS=	usacloud-core>=${PKGVERSION}:sysutils/usacloud-core
 
 NO_ARCH=	yes
 NO_TEST=	yes
