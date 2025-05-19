@@ -1,17 +1,35 @@
 PORTNAME=	usacloud
+PORTVERSION=	1.15.0
+DISTVERSIONPREFIX=	v
+PORTREVISION=	0
 CATEGORIES=	sysutils
 MASTER_SITES=	# empty
 DISTFILES=	# empty
 
 MAINTAINER=	nork@FreeBSD.org
-COMMENT=	Meta port for SAKURA cloud
+COMMENT=	CLI client for SAKURA cloud
 WWW=		https://docs.usacloud.jp/usacloud/
 
 LICENSE=	APACHE20
 
-BUILD_DEPENDS=	usacloud-core>=${PKGVERSION}:sysutils/usacloud-core
-RUN_DEPENDS=	usacloud-core>=${PKGVERSION}:sysutils/usacloud-core
+FLAVORS=	default core
+FLAVOR?=	${FLAVORS:[1]}
+FLAVORS_SUB=	yes
 
+core_PKGNAMESUFFIX=	-core
+default_BUILD_DEPENDS=	${PORTNAME}${core_PKGNAMESUFFIX}>=${PKGVERSION}:sysutils/usacloud@core
+default_RUN_DEPENDS=	${PORTNAME}${core_PKGNAMESUFFIX}>=${PKGVERSION}:sysutils/usacloud@core
+
+.if ${FLAVOR:U} == core
+LICENSE_FILE=	${WRKSRC}/LICENSE.txt
+
+USES=		go:modules
+
+GO_MODULE=	github.com/sacloud/usacloud
+GO_TARGET=	main.go:usacloud
+
+PLIST_FILES=	bin/usacloud
+.else
 NO_ARCH=	yes
 NO_TEST=	yes
 NO_WRKSUBDIR=	yes
@@ -30,6 +48,6 @@ do-build:
 
 do-install:
 	cd ${INSTALL_WRKSRC} && ${COPYTREE_SHARE} . ${STAGEDIR}${PREFIX}
+.endif
 
-.include "${.CURDIR}/../usacloud-core/Makefile.version"
 .include <bsd.port.mk>
