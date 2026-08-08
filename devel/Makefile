@@ -4582,6 +4582,7 @@
     SUBDIR += py-aws-sam-translator
     SUBDIR += py-aws-xray-sdk
     SUBDIR += py-awscli
+    SUBDIR += py-awscli2
     SUBDIR += py-awscrt
     SUBDIR += py-azure-ai-agents
     SUBDIR += py-azure-ai-projects

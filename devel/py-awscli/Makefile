@@ -21,6 +21,7 @@ RUN_DEPENDS=	${PYTHON_PKGNAMEPREFIX}botocore>=1.31.35:devel/py-botocore@${PY_FLA
 USES=		python
 USE_PYTHON=	autoplist concurrent distutils
 
+CONFLICTS=	awscli py*-awscli2*
 NO_ARCH=	yes
 SUB_FILES=	pkg-message
 

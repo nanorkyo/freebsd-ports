@@ -1,0 +1,27 @@
+-----------------------------------------------------------------
+The AWS Command Line Interface v2 (AWS CLI) is a unified tool to
+manage your AWS services from the command line.
+
+The AWS CLI provides direct access to the public APIs of AWS
+services.  You can explore a service's capabilities with the AWS
+CLI, and develop shell scripts to manage your resources.
+In addition to the low-level, API-equivalent commands, several
+AWS services provide customizations for the AWS CLI.
+Customizations can include higher-level commands that simplify
+using a service with a complex API.
+
+AWS CLI v2 includes:
+ - Improved installation mechanism
+ - AWS IAM Identity Center (SSO) support
+ - Interactive features with auto-prompting
+ - Server-side auto-completion
+ - Built-in pagination with less
+ - YAML input support
+ - Bundled botocore
+
+FreeBSD custom:
+ - Disable launching a browser by default for `aws login` / `aws
+   sso login`
+   For FreeBSD users, launching a browser is generally not
+   desirable.  When no graphical browser is available, AWS CLI
+   falls back to `w3m`, but this does not work in practic.

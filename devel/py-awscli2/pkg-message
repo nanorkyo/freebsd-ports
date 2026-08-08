@@ -1,0 +1,26 @@
+[
+{
+type: install
+message: <<EOM
+To add completions for the aws command,
+add the line(s) below to the appropriate shell rc file
+
+For zsh:
+
+  autoload bashcompinit && bashcompinit
+  autoload -Uz compinit && compinit
+
+For tcsh:
+
+  complete aws 'p/*/`aws_completer`/'
+
+For bash:
+
+  complete -C '${PREFIX}/bin/aws_completer' aws
+
+SEE ALSO:
+
+  https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
+EOM
+}
+]
