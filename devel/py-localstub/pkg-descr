@@ -1,0 +1,12 @@
+localstub is a Python library and CLI for testing HTTP clients
+against the behavior of a real server. It runs an asyncio HTTP
+server in your test process, returns whatever responses you
+configure, including error responses, slow responses, disconnects,
+and records each request exactly as it arrived on the wire for
+your tests to inspect.
+
+A TLS proxy is provided so you can test your clients without
+having to make any config changes, most HTTP clients support
+HTTPS_PROXY and some environment variables for specifying
+a CA_BUNDLE. This also lets you inspect existing HTTP clients
+to see the exact bytes they are sending to servers.
